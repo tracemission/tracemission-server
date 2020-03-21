@@ -3,6 +3,7 @@ package org.wirvsvirushackathon.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.neo4j.driver.types.Node;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
@@ -21,6 +22,7 @@ public class Store {
     private long sessionId;
 
     private UUID id = UUID.randomUUID();
+    @Email
     @NotBlank(message = "Email should not be blank.")
     private String email;
     @NotBlank(message = "Store name should not be blank.")
