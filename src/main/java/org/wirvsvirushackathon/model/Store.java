@@ -1,21 +1,26 @@
 package org.wirvsvirushackathon.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.neo4j.driver.types.Node;
 
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 
 public class Store {
 
-    private static final String EMAIL_PROP = "email";
-    private static final String STORE_NAME_PROP = "store_name";
-    private static final String PHONE_PROP = "phone";
-    private static final String CITY_PROP = "city";
-    private static final String STREET_PROP = "street";
-    private static final String HOUSENUMBER_PROP = "housenumber";
+    public static final String ID_PROP = "id";
+    public static final String EMAIL_PROP = "email";
+    public static final String STORE_NAME_PROP = "store_name";
+    public static final String PHONE_PROP = "phone";
+    public static final String CITY_PROP = "city";
+    public static final String STREET_PROP = "street";
+    public static final String HOUSE_NUMBER_PROP = "house_number";
 
-    private long id;
+    @JsonIgnore
+    private long sessionId;
 
+    private UUID id = UUID.randomUUID();
     @NotBlank(message = "Email should not be blank.")
     private String email;
     @NotBlank(message = "Store name should not be blank.")
@@ -27,25 +32,27 @@ public class Store {
     @NotBlank(message = "Street should not be blank.")
     private String street;
     @NotBlank(message = "House Number should not be blank.")
-    private String housenumber;
+    private String houseNumber;
 
+    public Store() {
+    }
 
-
-    public Store(long id, String email, String storeName, String phone, String city, String street, String housenumber) {
+    public Store(long sessionId, UUID id, String email, String storeName, String phone, String city, String street, String houseNumber) {
+        this.sessionId = sessionId;
         this.id = id;
         this.email = email;
         this.storeName = storeName;
         this.phone = phone;
         this.city = city;
         this.street = street;
-        this.housenumber = housenumber;
+        this.houseNumber = houseNumber;
     }
 
-    public long getId() {
-        return id;
+    public UUID getId() {
+        return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -81,8 +88,8 @@ public class Store {
         return street;
     }
 
-    public String getHousenumber() {
-        return housenumber;
+    public String getHouseNumber() {
+        return houseNumber;
     }
 
     public void setCity(String city) {
@@ -93,13 +100,13 @@ public class Store {
         this.street = street;
     }
 
-    public void setHousenumber(String housenumber) {
-        this.housenumber = housenumber;
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
     public static Store from(Node node) {
-        return new Store(node.id(), node.get(EMAIL_PROP).asString(), node.get(STORE_NAME_PROP).asString(),node.get(PHONE_PROP).asString(),
-                                    node.get(CITY_PROP).asString(), node.get(STREET_PROP).asString(), node.get(HOUSENUMBER_PROP).asString());
+        return new Store(node.id(), UUID.fromString(node.get(ID_PROP).asString()), node.get(EMAIL_PROP).asString(), node.get(STORE_NAME_PROP).asString(), node.get(PHONE_PROP).asString(),
+                node.get(CITY_PROP).asString(), node.get(STREET_PROP).asString(), node.get(HOUSE_NUMBER_PROP).asString());
     }
 
 }

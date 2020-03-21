@@ -1,27 +1,43 @@
 package org.wirvsvirushackathon.servcie;
 
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.Values;
+import org.neo4j.driver.async.AsyncSession;
+import org.neo4j.driver.async.ResultCursor;
 import org.wirvsvirushackathon.model.Store;
+import org.wirvsvirushackathon.persistence.StoreQuery;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.CompletionStage;
 
 @Singleton
 public class StoreService {
 
-    private Map<Long, Store> stores = new HashMap<>();
+    @Inject
+    Driver driver;
 
-    public void registerStore(Store store) {
-        store.setId(getRandomId());
-        stores.put(store.getId(), store);
+    public CompletionStage<Store> registerStore(Store store) {
+        AsyncSession session = driver.asyncSession();
+        return session
+                .writeTransactionAsync(tx -> tx
+                        .runAsync(StoreQuery.CREATE_QUERY, StoreQuery.getParameterMap(store))
+                        .thenCompose(ResultCursor::singleAsync)
+                )
+                .thenApply(record -> Store.from(record.get("s").asNode()))
+                .thenCompose(persistedStore -> session.closeAsync().thenApply(signal -> persistedStore));
     }
 
-    public Store getStoreById(long id){
-        return stores.get(id);
-    }
-
-    private long getRandomId() {
-        return 100000000000000L + (long) (Math.random() * (999999999999999L - 10000000000L));
+    public CompletionStage<Store> getStoreById(UUID id) {
+        AsyncSession session = driver.asyncSession();
+        return session
+                .writeTransactionAsync(tx -> tx
+                        .runAsync(StoreQuery.SELECT_ID_QUERY, Values.parameters(Store.ID_PROP, id.toString()))
+                        .thenCompose(ResultCursor::singleAsync)
+                )
+                .thenApply(record -> Store.from(record.get("s").asNode()))
+                .thenCompose(persistedStore -> session.closeAsync().thenApply(signal -> persistedStore));
     }
 
 }

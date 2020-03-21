@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.UUID;
+import java.util.concurrent.CompletionStage;
 
 
 @Path("/store")
@@ -20,18 +22,19 @@ public class StoreResource {
 
     @GET
     @Path("/{id}")
-    public Store get(@PathParam long id) {
-        final Store store = storeService.getStoreById(id);
-        if(store == null) {
-            throw new WebApplicationException("Person with id of " + id + " does not exist.", 404);
-        }
-        return store;
+    public CompletionStage<Store> get(@PathParam UUID id) {
+        return storeService.getStoreById(id).thenApply(store -> {
+                    if (store == null) {
+                        throw new WebApplicationException("Person with id of " + id.toString() + " does not exist.", 404);
+                    }
+                    return store;
+                }
+        );
     }
 
     @POST
-    public Store add(@Valid Store store) {
-        storeService.registerStore(store);
-        return store;
+    public CompletionStage<Store> add(@Valid Store store) {
+        return storeService.registerStore(store);
     }
 
 }
