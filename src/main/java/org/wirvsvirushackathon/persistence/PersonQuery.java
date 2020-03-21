@@ -12,6 +12,7 @@ public class PersonQuery {
 
     public static final String CREATE_QUERY = "CREATE(p:PERSON{id:$id,first_name:$first_name,last_name:$last_name,phone:$phone,verified:$verified}) RETURN p";
     public static final String SELECT_ID_QUERY = "MATCH(p:PERSON{id:$id}) RETURN p";
+    public static final String VERIFY_QUERY = "MATCH(p:PERSON{id:$id}) SET p.verified=$verified";
 
     public static Map<String, Object> getParameterMap(Person person) {
         Map<String, Object> params = new HashMap<>();

@@ -32,6 +32,18 @@ public class PersonResource {
         );
     }
 
+    @GET
+    @Path("/{id}/verify")
+    public CompletionStage<Person> requestVerification(@PathParam UUID id) {
+        return personService.getPersonById(id).thenApply(person -> {
+                    if (person == null) {
+                        throw new WebApplicationException("Person with id of " + id.toString() + " does not exist.", 404);
+                    }
+                    return person;
+                }
+        );
+    }
+
     @POST
     public CompletionStage<Person> add(@Valid Person person) {
         return personService.registerPerson(person, false);
