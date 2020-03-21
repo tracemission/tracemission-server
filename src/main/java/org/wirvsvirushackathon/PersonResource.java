@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.UUID;
+import java.util.concurrent.CompletionStage;
 
 
 @Path("/person")
@@ -20,18 +22,19 @@ public class PersonResource {
 
     @GET
     @Path("/{id}")
-    public Person get(@PathParam long id) {
-        final Person person = personService.getPersonById(id);
-        if(person == null) {
-            throw new WebApplicationException("Person with id of " + id + " does not exist.", 404);
-        }
-        return person;
+    public CompletionStage<Person> get(@PathParam UUID id) {
+        return personService.getPersonById(id).thenApply(person -> {
+                    if (person == null) {
+                        throw new WebApplicationException("Person with id of " + id + " does not exist.", 404);
+                    }
+                    return person;
+                }
+        );
     }
 
     @POST
-    public Person add(@Valid Person person) {
-        personService.registerPerson(person);
-        return person;
+    public CompletionStage<Person> add(@Valid Person person) {
+        return personService.registerPerson(person);
     }
 
 }

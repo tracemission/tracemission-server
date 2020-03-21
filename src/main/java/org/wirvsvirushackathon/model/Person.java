@@ -1,19 +1,26 @@
 package org.wirvsvirushackathon.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.neo4j.driver.types.Node;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 
 public class Person {
 
-    private static final String EMAIL_PROP = "email";
-    private static final String FIRST_NAME_PROP = "first_name";
-    private static final String LAST_NAME_PROP = "last_name";
-    private static final String PHONE_PROP = "phone";
+    public static final String ID_PROP = "id";
+    public static final String EMAIL_PROP = "email";
+    public static final String FIRST_NAME_PROP = "first_name";
+    public static final String LAST_NAME_PROP = "last_name";
+    public static final String PHONE_PROP = "phone";
 
-    private long id;
+    @JsonIgnore
+    private long sessionId;
 
+    private UUID id = UUID.randomUUID();
+    @Email
     @NotBlank(message = "Email should not be blank.")
     private String email;
     @NotBlank(message = "First name should not be blank.")
@@ -23,8 +30,11 @@ public class Person {
     @NotBlank(message = "Phone number should not be blank.")
     private String phone;
 
+    public Person() {
+    }
 
-    public Person(long id, String email, String firstName, String lastName, String phone) {
+    public Person(long sessionId, UUID id, String email, String firstName, String lastName, String phone) {
+        this.sessionId = sessionId;
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -32,11 +42,11 @@ public class Person {
         this.phone = phone;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -73,7 +83,7 @@ public class Person {
     }
 
     public static Person from(Node node) {
-        return new Person(node.id(), node.get(EMAIL_PROP).asString(), node.get(FIRST_NAME_PROP).asString(), node.get(LAST_NAME_PROP).asString(),node.get(PHONE_PROP).asString());
+        return new Person(node.id(), UUID.fromString(node.get(ID_PROP).asString()), node.get(EMAIL_PROP).asString(), node.get(FIRST_NAME_PROP).asString(), node.get(LAST_NAME_PROP).asString(), node.get(PHONE_PROP).asString());
     }
 
 }
