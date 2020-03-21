@@ -20,7 +20,7 @@ docker build -f src/main/docker/Dockerfile.multistage -t quarkus-quickstart/gett
 
 Run:
 ```
-docker run -i --rm -p 8080:8080 quarkus-quickstart/getting-started
+docker run -i --rm -p 6789:6789 quarkus-quickstart/getting-started
 ```
 
 
