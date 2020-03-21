@@ -13,7 +13,7 @@ public class TwillioEnvironment {
     @ConfigProperty(name = "TWILLIO.AUTH_TOKEN")
     private String authToken;
 
-    @ConfigProperty(name = "TWILLIO.AUTH_TOKEN")
+    @ConfigProperty(name = "TWILLIO.PHONE_NUMBER")
     private String phoneNumber;
 
     public String getAccountSid() {
