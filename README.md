@@ -1,4 +1,6 @@
-# tracemissionserver project
+# Tracemission server
+
+![API Build and Deployment](https://github.com/tracemission/tracemission-server/workflows/API%20Build%20and%20Deployment/badge.svg?branch=master)
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
