@@ -3,28 +3,29 @@ package org.wirvsvirushackathon.configuration.environment;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.inject.Singleton;
+import java.util.Optional;
 
 @Singleton
 public class TwillioEnvironment {
 
     @ConfigProperty(name = "TWILLIO.ACCOUNT_SID")
-    private String accountSid;
+    private Optional<String> accountSid;
 
     @ConfigProperty(name = "TWILLIO.AUTH_TOKEN")
-    private String authToken;
+    private Optional<String> authToken;
 
     @ConfigProperty(name = "TWILLIO.PHONE_NUMBER")
-    private String phoneNumber;
+    private Optional<String> phoneNumber;
 
-    public String getAccountSid() {
+    public Optional<String> getAccountSid() {
         return accountSid;
     }
 
-    public String getAuthToken() {
+    public Optional<String> getAuthToken() {
         return authToken;
     }
 
-    public String getPhoneNumber() {
+    public Optional<String> getPhoneNumber() {
         return phoneNumber;
     }
 }

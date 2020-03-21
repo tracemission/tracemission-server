@@ -27,7 +27,7 @@ public class Person {
     private String phone;
 
     @JsonIgnore
-    private boolean verified;
+    private boolean verified = false;
 
     public Person() {
     }

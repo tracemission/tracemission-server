@@ -9,6 +9,8 @@ import org.wirvsvirushackathon.configuration.environment.TwillioEnvironment;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import static org.apache.http.util.TextUtils.isBlank;
+
 @Singleton
 public class SMSService {
 
@@ -17,17 +19,17 @@ public class SMSService {
     @Inject
     private TwillioEnvironment twillioEnvironment;
 
-    public void sendMessage(String messageString, String phoneNumber){
+    public void sendMessage(String messageString, String phoneNumber) {
 
-        if (twillioEnvironment.getAccountSid() == null || twillioEnvironment.getPhoneNumber() == null || twillioEnvironment.getAuthToken() == null) {
+        if (!twillioEnvironment.getAccountSid().isPresent() || !twillioEnvironment.getPhoneNumber().isPresent() || !twillioEnvironment.getAuthToken().isPresent()) {
             return;
         }
 
-        Twilio.init(twillioEnvironment.getAccountSid(), twillioEnvironment.getAuthToken());
+        Twilio.init(twillioEnvironment.getAccountSid().get(), twillioEnvironment.getAuthToken().get());
 
         Message message = Message
                 .creator(new PhoneNumber(phoneNumber), // to
-                        new PhoneNumber(twillioEnvironment.getPhoneNumber()), // from
+                        new PhoneNumber(twillioEnvironment.getPhoneNumber().get()), // from
                         messageString)
                 .create();
 
