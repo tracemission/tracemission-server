@@ -2,6 +2,7 @@ package org.wirvsvirushackathon.model;
 
 import org.neo4j.driver.types.Node;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 
@@ -16,6 +17,7 @@ public class Store {
 
     private long id;
 
+    @Email
     @NotBlank(message = "Email should not be blank.")
     private String email;
     @NotBlank(message = "Store name should not be blank.")

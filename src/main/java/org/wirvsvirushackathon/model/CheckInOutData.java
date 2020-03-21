@@ -8,19 +8,13 @@ public class CheckInOutData {
 
     private static final String PERSONID_PROP = "personId";
     private static final String STOREID_PROP = "storeId";
-    private static final String TIMESTAMP_PROP = "timestamp";
 
-    @NotBlank(message = "Person ID should not be blank.")
     private UUID personId;
-    @NotBlank(message = "Store ID should not be blank.")
     private UUID storeId;
-    @NotBlank(message = "Timestamp should not be blank.")
-    private Date timestamp;
 
-    public CheckInOutData(UUID personId, UUID storeId, Date timestamp) {
+    public CheckInOutData(UUID personId, UUID storeId) {
         this.personId = personId;
         this.storeId = storeId;
-        this.timestamp = timestamp;
     }
 
     public UUID getPersonId() {
@@ -37,13 +31,5 @@ public class CheckInOutData {
 
     public void setStoreId(UUID storeId) {
         this.storeId = storeId;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
     }
 }
