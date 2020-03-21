@@ -11,6 +11,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
 
     steps:
       - uses: actions/checkout@v2
@@ -61,6 +62,11 @@ jobs:
           docker tag image $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'master'
+    needs: push
+    steps:
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -68,4 +74,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: docker-compose pull && docker-compose down && docker-compose up -d
+          script: |
+            docker-compose pull api && docker-compose down
+            docker-compose up -d
