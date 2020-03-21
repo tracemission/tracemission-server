@@ -1,17 +1,27 @@
 package org.wirvsvirushackathon.servcie;
 
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.async.AsyncSession;
+import org.neo4j.driver.async.ResultCursor;
 import org.wirvsvirushackathon.model.CheckInOutData;
-import org.wirvsvirushackathon.model.Store;
+import org.wirvsvirushackathon.persistence.CheckInOutQuery;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.CompletionStage;
 
 @Singleton
 public class CheckInOutService {
 
+    @Inject
+    Driver driver;
+
     public void checkIn(CheckInOutData data) {
-        //TODO update database
+        AsyncSession session = driver.asyncSession();
+        CompletionStage<ResultCursor> res = session.writeTransactionAsync(tx -> tx
+                        .runAsync(CheckInOutQuery.CHECKIN_QUERY, CheckInOutQuery.getParameterMap(data))
+                );
+        session.closeAsync();
     }
 
     public void checkOut(CheckInOutData data) {

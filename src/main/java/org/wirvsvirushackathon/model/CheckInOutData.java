@@ -1,13 +1,11 @@
 package org.wirvsvirushackathon.model;
 
-import javax.validation.constraints.NotBlank;
-import java.util.Date;
 import java.util.UUID;
 
 public class CheckInOutData {
 
-    private static final String PERSONID_PROP = "personId";
-    private static final String STOREID_PROP = "storeId";
+    public static final String PERSONID_PROP = "personId";
+    public static final String STOREID_PROP = "storeId";
 
     private UUID personId;
     private UUID storeId;

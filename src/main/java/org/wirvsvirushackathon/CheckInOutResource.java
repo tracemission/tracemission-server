@@ -7,9 +7,9 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/check")
-@Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CheckInOutResource {
 
@@ -18,16 +18,16 @@ public class CheckInOutResource {
 
     @POST
     @Path("/in")
-    public CheckInOutData checkIn(@Valid CheckInOutData data) {
+    public Response checkIn(@Valid CheckInOutData data) {
         CIOService.checkIn(data);
-        return data;
+        return Response.accepted().build();
     }
 
     @POST
     @Path("/out")
-    public CheckInOutData checkOut(@Valid CheckInOutData data) {
+    public Response checkOut(@Valid CheckInOutData data) {
         CIOService.checkOut(data);
-        return data;
+        return Response.accepted().build();
     }
 
 
