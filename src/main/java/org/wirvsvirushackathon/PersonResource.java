@@ -25,7 +25,7 @@ public class PersonResource {
     public CompletionStage<Person> get(@PathParam UUID id) {
         return personService.getPersonById(id).thenApply(person -> {
                     if (person == null) {
-                        throw new WebApplicationException("Person with id of " + id + " does not exist.", 404);
+                        throw new WebApplicationException("Person with id of " + id.toString() + " does not exist.", 404);
                     }
                     return person;
                 }

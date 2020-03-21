@@ -9,8 +9,6 @@ import org.wirvsvirushackathon.persistence.PersonQuery;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
