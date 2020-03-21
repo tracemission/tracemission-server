@@ -45,13 +45,13 @@ public class FruitResource {
         AsyncSession session = driver.asyncSession();
         return session
                 .writeTransactionAsync(tx -> tx
-                        .runAsync("CREATE (f:Fruit {name: $name}) RETURN f", Values.parameters("name", fruit.name))
-                        .thenCompose(fn -> fn.singleAsync())
+                        .runAsync("CREATE (f:Fruit {name: $name}) RETURN f", Values.parameters("name", fruit.getName()))
+                        .thenCompose(ResultCursor::singleAsync)
                 )
                 .thenApply(record -> Fruit.from(record.get("f").asNode()))
                 .thenCompose(persistedFruit -> session.closeAsync().thenApply(signal -> persistedFruit))
                 .thenApply(persistedFruit -> Response
-                        .created(URI.create("/fruits/" + persistedFruit.id))
+                        .created(URI.create("/fruits/" + persistedFruit.getId()))
                         .build()
                 );
     }
