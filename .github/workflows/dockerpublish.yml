@@ -51,7 +51,7 @@ jobs:
         run: docker build . --file Dockerfile --tag image
 
       - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.io -u tracemission --password-stdin
+        run: echo "${{ secrets.DOCKERHUB }}" | docker login docker.io -u tracemission --password-stdin
 
       - name: Push image
         run: |
