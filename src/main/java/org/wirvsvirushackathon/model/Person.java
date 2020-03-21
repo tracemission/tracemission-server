@@ -11,7 +11,6 @@ import java.util.UUID;
 public class Person {
 
     public static final String ID_PROP = "id";
-    public static final String EMAIL_PROP = "email";
     public static final String FIRST_NAME_PROP = "first_name";
     public static final String LAST_NAME_PROP = "last_name";
     public static final String PHONE_PROP = "phone";
@@ -20,9 +19,6 @@ public class Person {
     private long sessionId;
 
     private UUID id = UUID.randomUUID();
-    @Email
-    @NotBlank(message = "Email should not be blank.")
-    private String email;
     @NotBlank(message = "First name should not be blank.")
     private String firstName;
     @NotBlank(message = "Last name should not be blank.")
@@ -33,10 +29,9 @@ public class Person {
     public Person() {
     }
 
-    public Person(long sessionId, UUID id, String email, String firstName, String lastName, String phone) {
+    public Person(long sessionId, UUID id, String firstName, String lastName, String phone) {
         this.sessionId = sessionId;
         this.id = id;
-        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -48,14 +43,6 @@ public class Person {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getFirstName() {
@@ -83,7 +70,7 @@ public class Person {
     }
 
     public static Person from(Node node) {
-        return new Person(node.id(), UUID.fromString(node.get(ID_PROP).asString()), node.get(EMAIL_PROP).asString(), node.get(FIRST_NAME_PROP).asString(), node.get(LAST_NAME_PROP).asString(), node.get(PHONE_PROP).asString());
+        return new Person(node.id(), UUID.fromString(node.get(ID_PROP).asString()), node.get(FIRST_NAME_PROP).asString(), node.get(LAST_NAME_PROP).asString(), node.get(PHONE_PROP).asString());
     }
 
 }
