@@ -11,6 +11,20 @@ You can run your application in dev mode that enables live coding using:
 ./mvnw quarkus:dev
 ```
 
+## Build and run native docker
+
+Build: 
+```
+docker build -f src/main/docker/Dockerfile.multistage -t quarkus-quickstart/getting-started .
+```
+
+Run:
+```
+docker run -i --rm -p 8080:8080 quarkus-quickstart/getting-started
+```
+
+
+
 ## Packaging and running the application
 
 The application can be packaged using `./mvnw package`.
