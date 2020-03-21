@@ -7,14 +7,14 @@ import javax.inject.Singleton;
 @Singleton
 public class TwillioEnvironment {
 
-    @ConfigProperty(name = "TWILLIO.ACCOUNT_SID", defaultValue = "")
+    @ConfigProperty(name = "TWILLIO.ACCOUNT_SID")
     private String accountSid;
 
-    @ConfigProperty(name = "TWILLIO.SERVICE_SID", defaultValue = "")
-    private String serviceSid;
-
-    @ConfigProperty(name = "TWILLIO.AUTH_TOKEN", defaultValue = "")
+    @ConfigProperty(name = "TWILLIO.AUTH_TOKEN")
     private String authToken;
+
+    @ConfigProperty(name = "TWILLIO.AUTH_TOKEN")
+    private String phoneNumber;
 
     public String getAccountSid() {
         return accountSid;
@@ -22,5 +22,9 @@ public class TwillioEnvironment {
 
     public String getAuthToken() {
         return authToken;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 }

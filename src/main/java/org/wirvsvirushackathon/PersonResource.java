@@ -34,7 +34,13 @@ public class PersonResource {
 
     @POST
     public CompletionStage<Person> add(@Valid Person person) {
-        return personService.registerPerson(person);
+        return personService.registerPerson(person, false);
+    }
+
+    @POST
+    @Path("/verified")
+    public CompletionStage<Person> addVerified(@Valid Person person) {
+        return personService.registerPerson(person, true);
     }
 
 }

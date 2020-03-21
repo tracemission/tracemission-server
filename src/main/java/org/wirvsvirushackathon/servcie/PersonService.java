@@ -17,9 +17,12 @@ import java.util.concurrent.CompletionStage;
 public class PersonService {
 
     @Inject
-    Driver driver;
+    private Driver driver;
 
-    public CompletionStage<Person> registerPerson(Person person) {
+    @Inject
+    private SMSService smsService;
+
+    public CompletionStage<Person> registerPerson(Person person, boolean verify) {
         AsyncSession session = driver.asyncSession();
         return session
                 .writeTransactionAsync(tx -> tx
@@ -27,7 +30,16 @@ public class PersonService {
                         .thenCompose(ResultCursor::singleAsync)
                 )
                 .thenApply(record -> Person.from(record.get("p").asNode()))
-                .thenCompose(persistedPerson -> session.closeAsync().thenApply(signal -> persistedPerson));
+                .thenCompose(persistedPerson -> session.closeAsync().thenApply(signal -> persistedPerson)).thenApply( persistedPerson -> {
+                    if (verify) {
+                        smsService.sendMessage("Herzlich Willkommen bei Tracemission " + persistedPerson.getFirstName() + ".\n" +
+                                "Wir freuen uns sehr, dass du uns dabei unterstützen möchtest die Ausbreitung von Corona weitestgehend zu verhindern.\n" +
+                                "Dein Aktivierungscode lautet: 122345\n" +
+                                "Viele Grüße\n" +
+                                "Dein Tracemission Team\n", persistedPerson.getPhone());
+                    }
+                    return person;
+                });
     }
 
     public CompletionStage<Person> getPersonById(UUID id) {
