@@ -14,8 +14,6 @@ import static org.apache.http.util.TextUtils.isBlank;
 @Singleton
 public class SMSService {
 
-    private static final Logger LOG = Logger.getLogger(SMSService.class);
-
     @Inject
     private TwillioEnvironment twillioEnvironment;
 
@@ -32,8 +30,6 @@ public class SMSService {
                         new PhoneNumber(twillioEnvironment.getPhoneNumber().get()), // from
                         messageString)
                 .create();
-
-        LOG.debug("Twillio message: {}" + message.getSid());
     }
 
 }

@@ -20,7 +20,6 @@ import java.util.concurrent.CompletionStage;
 @Singleton
 public class PersonService {
 
-    private static final Logger LOG = Logger.getLogger(PersonService.class);
 
     @Inject
     private Driver driver;
