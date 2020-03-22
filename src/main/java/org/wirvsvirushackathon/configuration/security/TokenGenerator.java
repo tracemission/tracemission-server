@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import io.smallrye.jwt.build.Jwt;
 import io.smallrye.jwt.build.JwtClaimsBuilder;
-import org.wirvsvirushackathon.configuration.environment.TokenEnvironment;
 import org.wirvsvirushackathon.model.Role;
 
 import javax.inject.Inject;
@@ -13,9 +12,6 @@ import javax.inject.Singleton;
 
 @Singleton
 public class TokenGenerator {
-
-    @Inject
-    private TokenEnvironment tokenEnvironment;
 
     public String generateToken(UUID id, Role role) {
         JwtClaimsBuilder jwtClaimsBuilder = buildClaims(id, role);
