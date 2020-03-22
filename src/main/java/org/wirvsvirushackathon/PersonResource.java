@@ -1,5 +1,6 @@
 package org.wirvsvirushackathon;
 
+import io.quarkus.security.AuthenticationFailedException;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.wirvsvirushackathon.model.Person;
 import org.wirvsvirushackathon.servcie.PersonService;
@@ -8,6 +9,8 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
@@ -47,11 +50,26 @@ public class PersonResource {
     @GET
     @Path("/{id}/verify")
     public CompletionStage<Person> requestVerification(@PathParam UUID id) {
-        return personService.getPersonById(id).thenApply(person -> {
+        return personService.verifyPerson(id).thenApply(person -> {
                     if (person == null) {
                         throw new WebApplicationException("Person with id of " + id.toString() + " does not exist.", 404);
                     }
                     return person;
+                }
+        );
+    }
+
+    @GET
+    @Path("/{id}/verify/{key}")
+    public CompletionStage<Map<String, String>> checkVerification(@PathParam UUID id, @PathParam long key) {
+        return personService.checkVerification(id, key).thenApply(token -> {
+            System.out.println(token);
+                    if (token == null) {
+                        throw new AuthenticationFailedException();
+                    }
+                    Map<String, String> tokenResponse = new HashMap<>();
+                    tokenResponse.put("access_token", token);
+                    return tokenResponse;
                 }
         );
     }

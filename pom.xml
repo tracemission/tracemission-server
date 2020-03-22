@@ -82,6 +82,11 @@
       <artifactId>twilio</artifactId>
       <version>${twillio.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.nimbusds</groupId>
+      <artifactId>nimbus-jose-jwt</artifactId>
+      <version>8.10</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
