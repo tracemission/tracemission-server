@@ -1,5 +1,6 @@
 package org.wirvsvirushackathon.configuration.security;
 
+import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -27,7 +28,7 @@ public class TokenGenerator {
 
     public String generateToken(UUID id, Role role) throws JOSEException {
         if (!tokenEnvironment.getSecret().isPresent()) return null;
-        byte[] secret = getSecret();
+        byte[] secret = tokenEnvironment.getSecret().get().getBytes(StandardCharsets.UTF_8);
         JWSSigner signer = new MACSigner(secret);
         JWTClaimsSet jwtClaimsSet = buildClaims(id, role);
         SignedJWT signedJWT = new SignedJWT(
@@ -45,11 +46,6 @@ public class TokenGenerator {
                 .expirationTime(Date.from(Instant.now().plus(Duration.ofDays(90))))
                 .claim("role", role.toString())
                 .build();
-    }
-
-    private byte[] getSecret() {
-        String key = tokenEnvironment.getSecret().get();
-        return key.getBytes();
     }
 
 }
