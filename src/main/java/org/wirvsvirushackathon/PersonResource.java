@@ -48,7 +48,7 @@ public class PersonResource {
         );
     }
 
-    @GET
+    @POST
     @Path("/{id}/verify")
     public CompletionStage<Response> requestVerification(@PathParam UUID id) {
         return personService.verifyPerson(id).thenApply(person -> {
@@ -60,7 +60,7 @@ public class PersonResource {
         );
     }
 
-    @GET
+    @POST
     @Path("/{id}/verify/{key}")
     public CompletionStage<Map<String, String>> checkVerification(@PathParam UUID id, @PathParam long key) {
         return personService.checkVerification(id, key).thenApply(token -> {
