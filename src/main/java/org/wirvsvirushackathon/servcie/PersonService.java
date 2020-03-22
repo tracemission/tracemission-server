@@ -26,6 +26,17 @@ public class PersonService {
     @Inject
     private SMSService smsService;
 
+    public CompletionStage<Person> reportInfected(UUID id){
+        AsyncSession session = driver.asyncSession();
+        return session
+                .writeTransactionAsync(tx -> tx
+                        .runAsync(PersonQuery.REPORT_INFECTED_QUERY, Values.parameters(Person.ID_PROP, id.toString(), Person.INFECTED_PROP, true))
+                        .thenCompose(ResultCursor::singleAsync)
+                )
+                .thenApply(record -> Person.from(record.get("p").asNode()))
+                .thenCompose(persistedPerson -> session.closeAsync().thenApply(signal -> persistedPerson));
+    }
+
     public CompletionStage<Person> registerPerson(Person person, boolean verify) {
         AsyncSession session = driver.asyncSession();
         return session

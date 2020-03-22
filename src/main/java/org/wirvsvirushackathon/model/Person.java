@@ -14,6 +14,7 @@ public class Person {
     public static final String LAST_NAME_PROP = "last_name";
     public static final String PHONE_PROP = "phone";
     public static final String VERIFIED_PROP = "verified";
+    public static final String INFECTED_PROP = "infected";
 
     @JsonIgnore
     private long sessionId;
@@ -28,17 +29,20 @@ public class Person {
 
     @JsonIgnore
     private boolean verified = false;
+    @JsonIgnore
+    private boolean infected = false;
 
     public Person() {
     }
 
-    public Person(long sessionId, UUID id, String firstName, String lastName, String phone, boolean verified) {
+    public Person(long sessionId, UUID id, String firstName, String lastName, String phone, boolean verified, boolean infected) {
         this.sessionId = sessionId;
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.verified = verified;
+        this.infected = infected;
     }
 
     public UUID getId() {
@@ -77,8 +81,12 @@ public class Person {
         return verified;
     }
 
+    public boolean isInfected() {
+        return infected;
+    }
+
     public static Person from(Node node) {
-        return new Person(node.id(), UUID.fromString(node.get(ID_PROP).asString()), node.get(FIRST_NAME_PROP).asString(), node.get(LAST_NAME_PROP).asString(), node.get(PHONE_PROP).asString(), node.get(VERIFIED_PROP).asBoolean());
+        return new Person(node.id(), UUID.fromString(node.get(ID_PROP).asString()), node.get(FIRST_NAME_PROP).asString(), node.get(LAST_NAME_PROP).asString(), node.get(PHONE_PROP).asString(), node.get(VERIFIED_PROP).asBoolean(), node.get(INFECTED_PROP).asBoolean());
     }
 
 }
