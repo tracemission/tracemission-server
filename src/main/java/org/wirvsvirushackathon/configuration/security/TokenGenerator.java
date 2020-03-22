@@ -7,7 +7,6 @@ import io.smallrye.jwt.build.Jwt;
 import io.smallrye.jwt.build.JwtClaimsBuilder;
 import org.wirvsvirushackathon.model.Role;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton

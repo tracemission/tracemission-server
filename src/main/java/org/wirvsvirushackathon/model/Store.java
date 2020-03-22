@@ -18,6 +18,7 @@ public class Store {
     public static final String STREET_PROP = "street";
     public static final String HOUSE_NUMBER_PROP = "house_number";
     public static final String VERIFIED_PROP = "verified";
+    public static final String AVG_STAY_IN_MINUTES = "avgStayInMinutes";
 
     @JsonIgnore
     private long sessionId;
@@ -40,10 +41,14 @@ public class Store {
     @JsonIgnore
     private boolean verified = false;
 
+
+    @JsonIgnore
+    private int avgStayInMinutes = 30;
+
     public Store() {
     }
 
-    public Store(long sessionId, UUID id, String email, String storeName, String phone, String city, String street, String houseNumber, boolean verified) {
+    public Store(long sessionId, UUID id, String email, String storeName, String phone, String city, String street, String houseNumber, boolean verified, int avgStayInMinutes) {
         this.sessionId = sessionId;
         this.id = id;
         this.email = email;
@@ -53,6 +58,7 @@ public class Store {
         this.street = street;
         this.houseNumber = houseNumber;
         this.verified = verified;
+        this.avgStayInMinutes = avgStayInMinutes;
     }
 
     public UUID getId() {
@@ -119,9 +125,13 @@ public class Store {
         return verified;
     }
 
+    public int getAvgStayInMinutes() {
+        return avgStayInMinutes;
+    }
+
     public static Store from(Node node) {
         return new Store(node.id(), UUID.fromString(node.get(ID_PROP).asString()), node.get(EMAIL_PROP).asString(), node.get(STORE_NAME_PROP).asString(), node.get(PHONE_PROP).asString(),
-                node.get(CITY_PROP).asString(), node.get(STREET_PROP).asString(), node.get(HOUSE_NUMBER_PROP).asString(), node.get(VERIFIED_PROP).asBoolean());
+                node.get(CITY_PROP).asString(), node.get(STREET_PROP).asString(), node.get(HOUSE_NUMBER_PROP).asString(), node.get(VERIFIED_PROP).asBoolean(), node.get(AVG_STAY_IN_MINUTES).asInt(30));
     }
 
 }

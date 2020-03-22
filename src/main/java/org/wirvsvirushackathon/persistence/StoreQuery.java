@@ -11,7 +11,7 @@ public class StoreQuery {
     private StoreQuery() {
     }
 
-    public static final String CREATE_QUERY = "CREATE(s:STORE{id:$id,email:$email,store_name:$store_name,phone:$phone,city:$city,street:$street,house_number:$house_number,verified:$verified}) RETURN s";
+    public static final String CREATE_QUERY = "CREATE(s:STORE{id:$id,email:$email,store_name:$store_name,phone:$phone,city:$city,street:$street,house_number:$house_number,verified:$verified,avgStayInMinutes:$avgStayInMinutes}) RETURN s";
     public static final String SELECT_ID_QUERY = "MATCH(s:STORE{id:$id}) RETURN s";
     public static final String VERIFY_QUERY = "MATCH(s:STORE{id:$id}) SET s.verified=$verified RETURN s";
 
@@ -25,6 +25,7 @@ public class StoreQuery {
         params.put(Store.STREET_PROP, store.getStreet());
         params.put(Store.HOUSE_NUMBER_PROP, store.getHouseNumber());
         params.put(Store.VERIFIED_PROP, store.isVerified());
+        params.put(Store.AVG_STAY_IN_MINUTES, store.getAvgStayInMinutes());
 
         return params;
     }

@@ -1,15 +1,12 @@
 package org.wirvsvirushackathon.configuration.environment;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.jboss.logging.Logger;
-import org.wirvsvirushackathon.servcie.SMSService;
 
 import javax.inject.Singleton;
 import java.util.Optional;
 
 @Singleton
 public class TwillioEnvironment {
-
 
     @ConfigProperty(name = "TWILLIO.ACCOUNT_SID")
     private Optional<String> accountSid;
