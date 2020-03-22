@@ -6,8 +6,9 @@ import org.neo4j.driver.Driver;
 import org.neo4j.driver.Values;
 import org.neo4j.driver.async.AsyncSession;
 import org.neo4j.driver.async.ResultCursor;
-import org.wirvsvirushackathon.configuration.security.GenerateToken;
+import org.wirvsvirushackathon.configuration.security.TokenGenerator;
 import org.wirvsvirushackathon.model.Person;
+import org.wirvsvirushackathon.model.Role;
 import org.wirvsvirushackathon.persistence.PersonQuery;
 
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ public class PersonService {
     private SMSService smsService;
 
     @Inject
-    private GenerateToken generateToken;
+    private TokenGenerator tokenGenerator;
 
     private Map<UUID, Long> verificationKey = new HashMap<>();
 
@@ -87,7 +88,7 @@ public class PersonService {
                     .thenApply(record -> Person.from(record.get("p").asNode()))
                     .thenCompose(persistedPerson -> session.closeAsync().thenApply(signal -> {
                         try {
-                            return generateToken.generateToken(persistedPerson.getId());
+                            return tokenGenerator.generateToken(persistedPerson.getId(), Role.PERSON);
                         } catch (Exception e) {
                             return null;
                         }

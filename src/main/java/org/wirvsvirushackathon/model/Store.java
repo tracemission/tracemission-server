@@ -17,6 +17,7 @@ public class Store {
     public static final String CITY_PROP = "city";
     public static final String STREET_PROP = "street";
     public static final String HOUSE_NUMBER_PROP = "house_number";
+    public static final String VERIFIED_PROP = "verified";
 
     @JsonIgnore
     private long sessionId;
@@ -36,10 +37,13 @@ public class Store {
     @NotBlank(message = "House Number should not be blank.")
     private String houseNumber;
 
+    @JsonIgnore
+    private boolean verified = false;
+
     public Store() {
     }
 
-    public Store(long sessionId, UUID id, String email, String storeName, String phone, String city, String street, String houseNumber) {
+    public Store(long sessionId, UUID id, String email, String storeName, String phone, String city, String street, String houseNumber, boolean verified) {
         this.sessionId = sessionId;
         this.id = id;
         this.email = email;
@@ -48,6 +52,7 @@ public class Store {
         this.city = city;
         this.street = street;
         this.houseNumber = houseNumber;
+        this.verified = verified;
     }
 
     public UUID getId() {
@@ -106,9 +111,17 @@ public class Store {
         this.houseNumber = houseNumber;
     }
 
+    public long getSessionId() {
+        return sessionId;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
     public static Store from(Node node) {
         return new Store(node.id(), UUID.fromString(node.get(ID_PROP).asString()), node.get(EMAIL_PROP).asString(), node.get(STORE_NAME_PROP).asString(), node.get(PHONE_PROP).asString(),
-                node.get(CITY_PROP).asString(), node.get(STREET_PROP).asString(), node.get(HOUSE_NUMBER_PROP).asString());
+                node.get(CITY_PROP).asString(), node.get(STREET_PROP).asString(), node.get(HOUSE_NUMBER_PROP).asString(), node.get(VERIFIED_PROP).asBoolean());
     }
 
 }

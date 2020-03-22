@@ -14,21 +14,22 @@ import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import org.wirvsvirushackathon.configuration.environment.TokenEnvironment;
+import org.wirvsvirushackathon.model.Role;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class GenerateToken {
+public class TokenGenerator {
 
     @Inject
     private TokenEnvironment tokenEnvironment;
 
-    public String generateToken(UUID id) throws JOSEException {
+    public String generateToken(UUID id, Role role) throws JOSEException {
         if (!tokenEnvironment.getSecret().isPresent()) return null;
         byte[] secret = getSecret();
         JWSSigner signer = new MACSigner(secret);
-        JWTClaimsSet jwtClaimsSet = buildClaims(id);
+        JWTClaimsSet jwtClaimsSet = buildClaims(id, role);
         SignedJWT signedJWT = new SignedJWT(
                 new JWSHeader(JWSAlgorithm.HS512),
                 jwtClaimsSet);
@@ -37,11 +38,12 @@ public class GenerateToken {
         return signedJWT.serialize();
     }
 
-    private JWTClaimsSet buildClaims(UUID id) {
+    private JWTClaimsSet buildClaims(UUID id, Role role) {
         return new JWTClaimsSet.Builder()
                 .subject(id.toString())
                 .issuer("https://tracemission.app/")
                 .expirationTime(Date.from(Instant.now().plus(Duration.ofDays(90))))
+                .claim("role", role.toString())
                 .build();
     }
 
