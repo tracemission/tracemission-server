@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -47,23 +48,22 @@ public class PersonResource {
         );
     }
 
-    @GET
+    @POST
     @Path("/{id}/verify")
-    public CompletionStage<Person> requestVerification(@PathParam UUID id) {
+    public CompletionStage<Response> requestVerification(@PathParam UUID id) {
         return personService.verifyPerson(id).thenApply(person -> {
                     if (person == null) {
                         throw new WebApplicationException("Person with id of " + id.toString() + " does not exist.", 404);
                     }
-                    return person;
+                    return Response.accepted().build();
                 }
         );
     }
 
-    @GET
+    @POST
     @Path("/{id}/verify/{key}")
     public CompletionStage<Map<String, String>> checkVerification(@PathParam UUID id, @PathParam long key) {
         return personService.checkVerification(id, key).thenApply(token -> {
-            System.out.println(token);
                     if (token == null) {
                         throw new AuthenticationFailedException();
                     }
