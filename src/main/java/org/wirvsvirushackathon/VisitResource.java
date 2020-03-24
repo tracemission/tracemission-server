@@ -1,7 +1,7 @@
 package org.wirvsvirushackathon;
 
 import org.wirvsvirushackathon.model.Visit;
-import org.wirvsvirushackathon.servcie.VisitService;
+import org.wirvsvirushackathon.service.VisitService;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
