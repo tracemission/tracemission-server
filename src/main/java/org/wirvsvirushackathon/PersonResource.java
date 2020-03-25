@@ -3,7 +3,7 @@ package org.wirvsvirushackathon;
 import io.quarkus.security.AuthenticationFailedException;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.wirvsvirushackathon.model.Person;
-import org.wirvsvirushackathon.servcie.PersonService;
+import org.wirvsvirushackathon.service.PersonService;
 
 import javax.inject.Inject;
 import javax.validation.Valid;

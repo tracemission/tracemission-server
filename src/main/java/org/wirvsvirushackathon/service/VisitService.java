@@ -1,4 +1,4 @@
-package org.wirvsvirushackathon.servcie;
+package org.wirvsvirushackathon.service;
 
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.async.AsyncSession;

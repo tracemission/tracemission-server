@@ -1,7 +1,6 @@
-package org.wirvsvirushackathon.servcie;
+package org.wirvsvirushackathon.service;
 
 import io.quarkus.security.AuthenticationFailedException;
-import org.jboss.logging.Logger;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Values;
 import org.neo4j.driver.async.AsyncSession;
