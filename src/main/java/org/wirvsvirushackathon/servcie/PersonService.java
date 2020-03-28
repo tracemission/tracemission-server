@@ -1,7 +1,6 @@
 package org.wirvsvirushackathon.servcie;
 
 import io.quarkus.security.AuthenticationFailedException;
-import org.jboss.logging.Logger;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Values;
 import org.neo4j.driver.async.AsyncSession;
@@ -19,7 +18,6 @@ import java.util.concurrent.CompletionStage;
 
 @Singleton
 public class PersonService {
-
 
     @Inject
     private Driver driver;

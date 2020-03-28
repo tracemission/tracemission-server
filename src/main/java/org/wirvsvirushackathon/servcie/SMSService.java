@@ -1,12 +1,15 @@
 package org.wirvsvirushackathon.servcie;
 
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
+import org.wirvsvirushackathon.backingservices.TwilioService;
 import org.wirvsvirushackathon.configuration.environment.TwillioEnvironment;
+import org.wirvsvirushackathon.model.TwilioSMS;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.ws.rs.core.Response;
+import java.util.Base64;
 
 @Singleton
 public class SMSService {
@@ -14,18 +17,29 @@ public class SMSService {
     @Inject
     private TwillioEnvironment twillioEnvironment;
 
-    public void sendMessage(String messageString, String phoneNumber) {
+    @Inject
+    @RestClient
+    private TwilioService twilioService;
+
+    private static final Logger LOG = Logger.getLogger(SMSService.class);
+
+
+    public Response sendMessage(String messageString, String phoneNumber) {
 
         if (!twillioEnvironment.getAccountSid().isPresent() || !twillioEnvironment.getPhoneNumber().isPresent() || !twillioEnvironment.getAuthToken().isPresent()) {
-            return;
+            return null;
         }
 
-        Twilio.init(twillioEnvironment.getAccountSid().get(), twillioEnvironment.getAuthToken().get());
+        String auth = lookupAuth(twillioEnvironment.getAccountSid().get(), twillioEnvironment.getAuthToken().get());
 
-        Message.creator(new PhoneNumber(phoneNumber), // to
-                        new PhoneNumber(twillioEnvironment.getPhoneNumber().get()), // from
-                        messageString)
-                .create();
+        TwilioSMS twilioSMS = new TwilioSMS(phoneNumber, twillioEnvironment.getPhoneNumber().get(), messageString);
+        LOG.info("******************************************************Send sms with auth= "+ auth);
+        return twilioService.sendSMS(auth, twillioEnvironment.getAccountSid().get(), twilioSMS);
+
     }
 
+    private String lookupAuth(String accountSid, String token) {
+        return "Basic " +
+                Base64.getEncoder().encodeToString((accountSid+":"+token).getBytes());
+    }
 }
