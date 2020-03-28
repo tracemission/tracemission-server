@@ -1,4 +1,4 @@
-package org.wirvsvirushackathon.servcie;
+package org.wirvsvirushackathon.service;
 
 import io.quarkus.security.AuthenticationFailedException;
 import org.neo4j.driver.Driver;

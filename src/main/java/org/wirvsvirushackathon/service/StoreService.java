@@ -1,4 +1,4 @@
-package org.wirvsvirushackathon.servcie;
+package org.wirvsvirushackathon.service;
 
 import io.quarkus.security.AuthenticationFailedException;
 import org.neo4j.driver.Driver;
@@ -6,10 +6,8 @@ import org.neo4j.driver.Values;
 import org.neo4j.driver.async.AsyncSession;
 import org.neo4j.driver.async.ResultCursor;
 import org.wirvsvirushackathon.configuration.security.TokenGenerator;
-import org.wirvsvirushackathon.model.Person;
 import org.wirvsvirushackathon.model.Role;
 import org.wirvsvirushackathon.model.Store;
-import org.wirvsvirushackathon.persistence.PersonQuery;
 import org.wirvsvirushackathon.persistence.StoreQuery;
 
 import javax.inject.Inject;

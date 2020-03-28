@@ -1,4 +1,4 @@
-package org.wirvsvirushackathon.servcie;
+package org.wirvsvirushackathon.service;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
