@@ -19,7 +19,6 @@ import java.util.concurrent.CompletionStage;
 @Singleton
 public class PersonService {
 
-
     @Inject
     private Driver driver;
 

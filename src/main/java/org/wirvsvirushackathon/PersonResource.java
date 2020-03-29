@@ -79,10 +79,4 @@ public class PersonResource {
         return personService.registerPerson(person, true);
     }
 
-    @POST
-    @Path("/verified")
-    public CompletionStage<Person> addVerified(@Valid Person person) {
-        return personService.registerPerson(person, true);
-    }
-
 }
